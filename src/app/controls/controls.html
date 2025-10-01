@@ -1,0 +1,23 @@
+<div class="controls">
+  <h3>Local</h3>
+  <button (click)="onAddPoints('local',1)">+1</button>
+  <button (click)="onAddPoints('local',2)">+2</button>
+  <button (click)="onAddPoints('local',3)">+3</button>
+  <button (click)="onSubtractPoints('local',1)">-1</button>
+  <button (click)="onAddFoul('local')">Falta</button>
+
+  <h3>Visitante</h3>
+  <button (click)="onAddPoints('visitor',1)">+1</button>
+  <button (click)="onAddPoints('visitor',2)">+2</button>
+  <button (click)="onAddPoints('visitor',3)">+3</button>
+  <button (click)="onSubtractPoints('visitor',1)">-1</button>
+  <button (click)="onAddFoul('visitor')">Falta</button>
+
+  <h3>Tiempo</h3>
+  <button (click)="onStartTimer()">Iniciar</button>
+  <button (click)="onPauseTimer()">Pausa</button>
+  <button (click)="onResetTimer()">Reset Tiempo</button>
+
+  <h3>Juego</h3>
+  <button (click)="onResetGame()">Reiniciar Juego</button>
+</div>

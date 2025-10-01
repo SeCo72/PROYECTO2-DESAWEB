@@ -1,0 +1,32 @@
+<div class="scoreboard">
+  <div class="team">
+    <h2>Local</h2>
+    <p>{{localPoints}}</p>
+    <p>Faltas: {{localFouls}}</p>
+  </div>
+  <div class="team">
+    <h2>Visitante</h2>
+    <p>{{visitorPoints}}</p>
+    <p>Faltas: {{visitorFouls}}</p>
+  </div>
+  <div class="info">
+    <p>Cuarto: {{currentQuarter}}</p>
+    <p>Tiempo: {{minutes}}:{{seconds < 10 ? '0' + seconds : seconds}}</p>
+  </div>
+
+  <button (click)="finalizarCuarto()">Finalizar Cuarto</button>
+  <button (click)="finalizarJuego()">Finalizar Juego</button>
+  <button (click)="saveGame()">Guardar Juego</button>
+
+</div>
+
+<!-- Componente de controles -->
+<app-controls
+  (addPoints)="addPoints($event.team, $event.points)"
+  (subtractPoints)="subtractPoints($event.team, $event.points)"
+  (addFoul)="addFoul($event)"
+  (startTimer)="startTimer()"
+  (pauseTimer)="pauseTimer()"
+  (resetTimer)="resetTimer()"
+  (resetGame)="resetGame()"
+></app-controls>

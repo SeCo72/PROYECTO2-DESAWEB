@@ -1,0 +1,357 @@
+
+/* Importar fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap');
+
+/* Reset y estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Exo 2', 'Arial', sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: rgb(0, 0, 0);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Contenedor del marcador */
+.scoreboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 30px;
+  align-items: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.scoreboard .team:first-child {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.scoreboard .info {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.scoreboard .team:last-of-type {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+/* Botones del marcador */
+.scoreboard-actions {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.scoreboard button {
+  font-family: 'Exo 2', sans-serif;
+  padding: 12px 24px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: rgb(0, 0, 0);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  min-width: 140px;
+}
+
+.scoreboard button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.scoreboard button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones específicos del marcador */
+.scoreboard button[onclick*="finalizarCuarto"] {
+  background: linear-gradient(145deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.scoreboard button[onclick*="finalizarCuarto"]:hover {
+  background: linear-gradient(145deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.15));
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+  border-color: rgba(76, 175, 80, 0.5);
+}
+
+.scoreboard button[onclick*="finalizarJuego"] {
+  background: linear-gradient(145deg, rgba(255, 152, 0, 0.2), rgba(255, 152, 0, 0.1));
+  border-color: rgba(255, 152, 0, 0.3);
+}
+
+.scoreboard button[onclick*="finalizarJuego"]:hover {
+  background: linear-gradient(145deg, rgba(255, 152, 0, 0.3), rgba(255, 152, 0, 0.15));
+  box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
+  border-color: rgba(255, 152, 0, 0.5);
+}
+
+.scoreboard button[onclick*="saveGame"] {
+  background: linear-gradient(145deg, rgba(103, 58, 183, 0.2), rgba(103, 58, 183, 0.1));
+  border-color: rgba(103, 58, 183, 0.3);
+}
+
+.scoreboard button[onclick*="saveGame"]:hover {
+  background: linear-gradient(145deg, rgba(103, 58, 183, 0.3), rgba(103, 58, 183, 0.15));
+  box-shadow: 0 8px 20px rgba(103, 58, 183, 0.3);
+  border-color: rgba(103, 58, 183, 0.5);
+}
+
+/* Equipos */
+.team {
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.team:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.team h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #ff6b35;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.team p:first-of-type {
+  font-family: 'Orbitron', monospace;
+  font-size: 4rem;
+  font-weight: 900;
+  color: #00adcf;
+  text-shadow: 0 0 20px rgba(0, 183, 219, 0.5);
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.team p:last-of-type {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  color: #444444;
+  font-weight: 400;
+}
+
+/* Información del juego */
+.info {
+  text-align: center;
+  padding: 25px 20px;
+  background: rgba(255, 107, 53, 0.1);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  min-width: 200px;
+}
+
+.info p {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #000000;
+  font-weight: 500;
+}
+
+.info p:last-child {
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ff6b35;
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .scoreboard {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .scoreboard .team:first-child,
+  .scoreboard .team:last-of-type {
+    grid-column: 1;
+  }
+  
+  .scoreboard .team:first-child {
+    grid-row: 2;
+  }
+  
+  .scoreboard .team:last-of-type {
+    grid-row: 3;
+  }
+  
+  .scoreboard .info {
+    grid-column: 1;
+    grid-row: 1;
+    order: -1;
+    margin-bottom: 20px;
+  }
+  
+  .scoreboard-actions {
+    grid-column: 1;
+    grid-row: 4;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .scoreboard button {
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 10px;
+  }
+  
+  .team h2 {
+    font-size: 1.5rem;
+  }
+  
+  .team p:first-of-type {
+    font-size: 3rem;
+  }
+  
+  .info p {
+    font-size: 1.1rem;
+  }
+  
+  .info p:last-child {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .scoreboard {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .scoreboard button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    min-width: 120px;
+  }
+  
+  .team {
+    padding: 15px;
+  }
+  
+  .team h2 {
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+  }
+  
+  .team p:first-of-type {
+    font-size: 2.5rem;
+  }
+  
+  .team p:last-of-type {
+    font-size: 1rem;
+  }
+  
+  .info {
+    padding: 20px 15px;
+    min-width: auto;
+  }
+  
+  .info p {
+    font-size: 1rem;
+  }
+  
+  .info p:last-child {
+    font-size: 1.2rem;
+  }
+}
+
+/* Animaciones adicionales */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  }
+}
+
+.team p:first-of-type {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Mejoras visuales adicionales */
+.scoreboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scoreboard:hover::before {
+  opacity: 1;
+}
+
+/* Separador visual */
+.info::before {
+  content: '🏀';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  filter: brightness(1);
+}
+
+/* Estados especiales */
+.team.leading {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.team.leading h2 {
+  color: #ffd700;
+}

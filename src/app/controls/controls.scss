@@ -1,0 +1,311 @@
+/* Importar fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap');
+
+/* Controles - Layout Vertical */
+.controls {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+/* Sección de cada equipo/categoría */
+.controls-section {
+  margin-bottom: 30px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls-section:last-child {
+  margin-bottom: 0;
+}
+
+.controls h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.8rem;
+  color: #ff6b35;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.controls h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+  border-radius: 2px;
+}
+
+/* Contenedor de botones de cada sección */
+.button-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  justify-items:center
+}
+
+.controls button {
+  font-family: 'Exo 2', sans-serif;
+  width: 100%;
+  max-width: 180px;
+  padding: 15px 20px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.controls button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.controls button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos específicos por sección */
+
+/* Sección Local */
+.controls-section.local {
+  border-left: 4px solid #00d4ff;
+}
+
+.controls-section.local h3 {
+  color: #00d4ff;
+}
+
+.controls-section.local h3::after {
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+}
+
+/* Sección Visitante */
+.controls-section.visitor {
+  border-left: 4px solid #ff6b35;
+}
+
+.controls-section.visitor h3 {
+  color: #ff6b35;
+}
+
+.controls-section.visitor h3::after {
+  background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+}
+
+/* Sección Tiempo */
+.controls-section.timer {
+  border-left: 4px solid #9c27b0;
+}
+
+.controls-section.timer h3 {
+  color: #9c27b0;
+}
+
+.controls-section.timer h3::after {
+  background: linear-gradient(90deg, transparent, #9c27b0, transparent);
+}
+
+/* Sección Juego */
+.controls-section.game {
+  border-left: 4px solid #f44336;
+}
+
+.controls-section.game h3 {
+  color: #f44336;
+}
+
+.controls-section.game h3::after {
+  background: linear-gradient(90deg, transparent, #f44336, transparent);
+}
+
+/* Botones específicos por tipo */
+
+/* Botones de puntos */
+.controls button[onclick*="AddPoints"] {
+  background: linear-gradient(145deg, rgba(0, 212, 255, 0.25), rgba(0, 212, 255, 0.1));
+  border-color: rgba(0, 212, 255, 0.4);
+}
+
+.controls button[onclick*="AddPoints"]:hover {
+  background: linear-gradient(145deg, rgba(0, 212, 255, 0.35), rgba(0, 212, 255, 0.15));
+  box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+  border-color: rgba(0, 212, 255, 0.6);
+}
+
+/* Botones de restar puntos */
+.controls button[onclick*="SubtractPoints"] {
+  background: linear-gradient(145deg, rgba(255, 87, 87, 0.25), rgba(255, 87, 87, 0.1));
+  border-color: rgba(255, 87, 87, 0.4);
+}
+
+.controls button[onclick*="SubtractPoints"]:hover {
+  background: linear-gradient(145deg, rgba(255, 87, 87, 0.35), rgba(255, 87, 87, 0.15));
+  box-shadow: 0 10px 25px rgba(255, 87, 87, 0.4);
+  border-color: rgba(255, 87, 87, 0.6);
+}
+
+/* Botones de faltas */
+.controls button[onclick*="AddFoul"] {
+  background: linear-gradient(145deg, rgba(255, 193, 7, 0.25), rgba(255, 193, 7, 0.1));
+  border-color: rgba(255, 193, 7, 0.4);
+}
+
+.controls button[onclick*="AddFoul"]:hover {
+  background: linear-gradient(145deg, rgba(255, 193, 7, 0.35), rgba(255, 193, 7, 0.15));
+  box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4);
+  border-color: rgba(255, 193, 7, 0.6);
+}
+
+/* Botones de tiempo */
+.controls button[onclick*="Timer"] {
+  background: linear-gradient(145deg, rgba(156, 39, 176, 0.25), rgba(156, 39, 176, 0.1));
+  border-color: rgba(156, 39, 176, 0.4);
+}
+
+.controls button[onclick*="Timer"]:hover {
+  background: linear-gradient(145deg, rgba(156, 39, 176, 0.35), rgba(156, 39, 176, 0.15));
+  box-shadow: 0 10px 25px rgba(156, 39, 176, 0.4);
+  border-color: rgba(156, 39, 176, 0.6);
+}
+
+/* Botón de reiniciar juego */
+.controls button[onclick*="ResetGame"] {
+  background: linear-gradient(145deg, rgba(244, 67, 54, 0.25), rgba(244, 67, 54, 0.1));
+  border-color: rgba(244, 67, 54, 0.4);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.controls button[onclick*="ResetGame"]:hover {
+  background: linear-gradient(145deg, rgba(244, 67, 54, 0.35), rgba(244, 67, 54, 0.15));
+  box-shadow: 0 10px 25px rgba(244, 67, 54, 0.4);
+  border-color: rgba(244, 67, 54, 0.6);
+}
+
+/* Efectos especiales */
+.controls::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.controls:hover::before {
+  opacity: 1;
+}
+
+/* Animación para botones */
+@keyframes buttonPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 107, 53, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
+  }
+}
+
+.controls button:focus {
+  animation: buttonPulse 0.8s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .controls {
+    max-width: 600px;
+    padding: 25px;
+  }
+  
+  .controls-section {
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .controls h3 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+  }
+  
+  .button-group {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .controls button {
+    max-width: 200px;
+    padding: 12px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .controls {
+    max-width: 100%;
+    padding: 20px;
+    margin: 0 10px;
+  }
+  
+  .controls-section {
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .controls h3 {
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+  }
+  
+  .controls h3::after {
+    width: 60px;
+    height: 2px;
+  }
+  
+  .button-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .controls button {
+    max-width: 100%;
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+}
