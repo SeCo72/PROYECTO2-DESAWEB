@@ -1,32 +1,73 @@
-<div class="scoreboard">
-  <div class="team">
-    <h2>Local</h2>
-    <p>{{localPoints}}</p>
-    <p>Faltas: {{localFouls}}</p>
-  </div>
-  <div class="team">
-    <h2>Visitante</h2>
-    <p>{{visitorPoints}}</p>
-    <p>Faltas: {{visitorFouls}}</p>
-  </div>
-  <div class="info">
-    <p>Cuarto: {{currentQuarter}}</p>
-    <p>Tiempo: {{minutes}}:{{seconds < 10 ? '0' + seconds : seconds}}</p>
-  </div>
-
-  <button (click)="finalizarCuarto()">Finalizar Cuarto</button>
-  <button (click)="finalizarJuego()">Finalizar Juego</button>
-  <button (click)="saveGame()">Guardar Juego</button>
-
+<!-- Selector de Partido -->
+<div class="match-selector" style="background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+  <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Seleccionar Partido en Curso</h3>
+  
+  @if (matches.length === 0) {
+    <p style="color: #666;">No hay partidos en curso</p>
+  } @else {
+    <select 
+      [(ngModel)]="selectedMatch" 
+      (change)="onMatchSelect()"
+      style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+      <option [ngValue]="undefined">Selecciona un partido...</option>
+      @for (match of matches; track match.id) {
+        <option [ngValue]="match">
+          {{ match.homeTeam?.name }} vs {{ match.awayTeam?.name }}
+        </option>
+      }
+    </select>
+  }
 </div>
 
-<!-- Componente de controles -->
-<app-controls
-  (addPoints)="addPoints($event.team, $event.points)"
-  (subtractPoints)="subtractPoints($event.team, $event.points)"
-  (addFoul)="addFoul($event)"
-  (startTimer)="startTimer()"
-  (pauseTimer)="pauseTimer()"
-  (resetTimer)="resetTimer()"
-  (resetGame)="resetGame()"
-></app-controls>
+<!-- Mostrar solo si hay partido seleccionado -->
+@if (selectedMatch) {
+  <!-- Información del Partido -->
+  <div style="background: linear-gradient(to right, #f97316, #ef4444); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; text-align: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="flex: 1;">
+        <h2 style="font-size: 2rem; font-weight: bold;">{{ selectedMatch.homeTeam?.name }}</h2>
+        <p style="font-size: 0.875rem; opacity: 0.9;">Local</p>
+      </div>
+      <div style="font-size: 2.5rem; font-weight: bold; margin: 0 2rem;">VS</div>
+      <div style="flex: 1;">
+        <h2 style="font-size: 2rem; font-weight: bold;">{{ selectedMatch.awayTeam?.name }}</h2>
+        <p style="font-size: 0.875rem; opacity: 0.9;">Visitante</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="scoreboard">
+    <div class="team">
+      <h2>{{ selectedMatch.homeTeam?.name || 'Local' }}</h2>
+      <p>{{localPoints}}</p>
+      <p>Faltas: {{localFouls}}</p>
+    </div>
+    <div class="team">
+      <h2>{{ selectedMatch.awayTeam?.name || 'Visitante' }}</h2>
+      <p>{{visitorPoints}}</p>
+      <p>Faltas: {{visitorFouls}}</p>
+    </div>
+    <div class="info">
+      <p>Cuarto: {{currentQuarter}}</p>
+      <p>Tiempo: {{minutes}}:{{seconds < 10 ? '0' + seconds : seconds}}</p>
+    </div>
+
+    <button (click)="finalizarJuego()">Finalizar Juego</button>
+    <button (click)="saveGame()">Guardar Juego</button>
+  </div>
+
+  <!-- Componente de controles -->
+  <app-controls
+    (addPoints)="addPoints($event.team, $event.points)"
+    (subtractPoints)="subtractPoints($event.team, $event.points)"
+    (addFoul)="addFoul($event)"
+    (startTimer)="startTimer()"
+    (pauseTimer)="pauseTimer()"
+    (resetTimer)="resetTimer()"
+    (resetGame)="resetGame()"
+  ></app-controls>
+} @else {
+  <div style="text-align: center; padding: 3rem; color: #666;">
+    <p style="font-size: 1.25rem;">Selecciona un partido para comenzar</p>
+  </div>
+}

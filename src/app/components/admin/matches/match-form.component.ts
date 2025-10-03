@@ -20,7 +20,7 @@ import { Match, Team } from '../../../models/models';
               <div>
                 <label class="block text-sm font-medium mb-2">Equipo Local *</label>
                 <select [(ngModel)]="match.homeTeamId" name="homeTeamId" required class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
-                  <option [value]="0">Selecciona equipo local...</option>
+                  <option [value]="undefined">Selecciona equipo local...</option>
                   @for (team of teams; track team.id) {
                     <option [value]="team.id">{{ team.name }}</option>
                   }
@@ -30,7 +30,7 @@ import { Match, Team } from '../../../models/models';
               <div>
                 <label class="block text-sm font-medium mb-2">Equipo Visitante *</label>
                 <select [(ngModel)]="match.awayTeamId" name="awayTeamId" required class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
-                  <option [value]="0">Selecciona equipo visitante...</option>
+                  <option [value]="undefined">Selecciona equipo visitante...</option>
                   @for (team of teams; track team.id) {
                     <option [value]="team.id">{{ team.name }}</option>
                   }
@@ -82,7 +82,7 @@ import { Match, Team } from '../../../models/models';
   `
 })
 export class MatchFormComponent implements OnInit {
-  match: Partial<Match> = { homeTeamId: 0, awayTeamId: 0, scheduledDate: '', status: 'Scheduled', homeScore: null, awayScore: null };
+  match: Partial<Match> = { homeTeamId: undefined, awayTeamId: undefined, scheduledDate: '', status: 'Scheduled', homeScore: null, awayScore: null };
   teams: Team[] = [];
   isEdit = false;
   loading = false;
@@ -119,18 +119,62 @@ export class MatchFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.loading = true;
-    this.errorMessage = '';
-    
-    this.match.scheduledDate = new Date(this.scheduledDateLocal).toISOString();
-
-    const request = this.isEdit && this.matchId
-      ? this.apiService.updateMatch(this.matchId, this.match as Match)
-      : this.apiService.createMatch(this.match);
-
-    request.subscribe({
-      next: () => this.router.navigate(['/admin/matches']),
-      error: (err) => { this.errorMessage = err.error?.message || 'Error'; this.loading = false; }
-    });
+  if (!this.match.homeTeamId || this.match.homeTeamId === 0) {
+    this.errorMessage = 'Debes seleccionar el equipo local';
+    return;
   }
+  
+  if (!this.match.awayTeamId || this.match.awayTeamId === 0) {
+    this.errorMessage = 'Debes seleccionar el equipo visitante';
+    return;
+  }
+
+  if (this.match.homeTeamId === this.match.awayTeamId) {
+    this.errorMessage = 'Los equipos deben ser diferentes';
+    return;
+  }
+
+  this.loading = true;
+  this.errorMessage = '';
+  
+  const matchData = {
+    homeTeamId: Number(this.match.homeTeamId),
+    awayTeamId: Number(this.match.awayTeamId),
+    scheduledDate: new Date(this.scheduledDateLocal).toISOString(),
+    status: this.match.status,
+    homeScore: this.match.homeScore,
+    awayScore: this.match.awayScore
+  };
+
+  console.log('=== DATOS A ENVIAR ===');
+  console.log(JSON.stringify(matchData, null, 2));
+  console.log('======================');
+
+  const request = this.isEdit && this.matchId
+    ? this.apiService.updateMatch(this.matchId, matchData as Match)
+    : this.apiService.createMatch(matchData);
+
+  request.subscribe({
+    next: () => this.router.navigate(['/admin/matches']),
+    error: (err) => { 
+      console.error('ERROR COMPLETO:', err);
+      console.error('ERROR.ERROR:', err.error);
+      console.error('ERRORES VALIDACION:', err.error?.errors);
+      
+      if (err.error?.errors) {
+        const errorMessages = Object.entries(err.error.errors)
+          .map(([field, messages]: [string, any]) => {
+            const msg = Array.isArray(messages) ? messages.join(', ') : messages;
+            return `${field}: ${msg}`;
+          })
+          .join('\n');
+        this.errorMessage = errorMessages;
+      } else {
+        this.errorMessage = err.error?.message || err.error?.title || 'Error al guardar partido';
+      }
+      
+      this.loading = false; 
+    }
+  });
+}
 }

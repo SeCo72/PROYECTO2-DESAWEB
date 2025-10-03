@@ -57,11 +57,11 @@ import { Player, Team } from '../../../models/models';
               <div class="col-span-2">
                 <label class="block text-sm font-medium mb-2">Equipo *</label>
                 <select [(ngModel)]="player.teamId" name="teamId" required class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 outline-none">
-                  <option [value]="0">Selecciona un equipo...</option>
-                  @for (team of teams; track team.id) {
-                    <option [value]="team.id">{{ team.name }}</option>
+                  <option [value]=" undefined">Selecciona un equipo...</option> <!-- Cambia 0 por undefined -->
+                    @for (team of teams; track team.id) {
+                  <option [value]="team.id">{{ team.name }}</option>
                   }
-                </select>
+              </select>
               </div>
               
               <div class="col-span-2">
@@ -87,7 +87,7 @@ import { Player, Team } from '../../../models/models';
   `
 })
 export class PlayerFormComponent implements OnInit {
-  player: Partial<Player> = { fullName: '', number: 0, position: '', height: 0, age: 0, nationality: '', teamId: 0, photoUrl: '' };
+  player: Partial<Player> = { fullName: '', number: 0, position: '', height: 0, age: 0, nationality: '', teamId: undefined, photoUrl: '' };
   teams: Team[] = [];
   isEdit = false;
   loading = false;
@@ -119,15 +119,53 @@ export class PlayerFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.loading = true;
-    this.errorMessage = '';
-    const request = this.isEdit && this.playerId
-      ? this.apiService.updatePlayer(this.playerId, this.player as Player)
-      : this.apiService.createPlayer(this.player);
-
-    request.subscribe({
-      next: () => this.router.navigate(['/admin/players']),
-      error: (err) => { this.errorMessage = err.error?.message || 'Error'; this.loading = false; }
-    });
+  if (!this.player.teamId || this.player.teamId === 0) {
+    this.errorMessage = 'Debes seleccionar un equipo';
+    return;
   }
+
+  this.loading = true;
+  this.errorMessage = '';
+  
+  const playerData: any = {
+    fullName: this.player.fullName?.trim(),
+    number: Number(this.player.number),
+    position: this.player.position,
+    height: Number(this.player.height),
+    age: Number(this.player.age),
+    nationality: this.player.nationality?.trim(),
+    teamId: Number(this.player.teamId),
+    photoUrl: this.player.photoUrl?.trim() || null
+  };
+
+  console.log('=== DATOS QUE SE VAN A ENVIAR ===');
+  console.log(JSON.stringify(playerData, null, 2));
+  console.log('=================================');
+
+  const request = this.isEdit && this.playerId
+    ? this.apiService.updatePlayer(this.playerId, playerData)
+    : this.apiService.createPlayer(playerData);
+
+  request.subscribe({
+    next: () => this.router.navigate(['/admin/players']),
+    error: (err) => { 
+      console.error('Error completo:', err);
+      console.error('Errores de validación:', err.error?.errors);
+      
+      if (err.error?.errors) {
+        const errorMessages = Object.entries(err.error.errors)
+          .map(([field, messages]: [string, any]) => {
+            const msg = Array.isArray(messages) ? messages.join(', ') : messages;
+            return `${field}: ${msg}`;
+          })
+          .join('\n');
+        this.errorMessage = errorMessages;
+      } else {
+        this.errorMessage = err.error?.message || err.error?.title || 'Error al guardar jugador';
+      }
+      
+      this.loading = false; 
+    }
+  });
+}
 }

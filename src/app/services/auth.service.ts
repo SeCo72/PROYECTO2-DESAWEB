@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { LoginDto, RegisterDto, AuthResponse } from '../models/models';
@@ -9,12 +10,19 @@ import { LoginDto, RegisterDto, AuthResponse } from '../models/models';
 export class AuthService {
   private apiUrl = 'http://localhost:5231/api/auth';
   private tokenKey = 'auth_token';
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser: boolean;
+  private userSubject = new BehaviorSubject<AuthResponse | null>(null);
 
-  // Inicializa userSubject con la info actual si hay token válido
-  private userSubject = new BehaviorSubject<AuthResponse | null>(this.getCurrentUser());
   public user$ = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+
+    if (this.isBrowser) {
+      this.userSubject.next(this.getCurrentUser());
+    }
+  }
 
   login(credentials: LoginDto): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials)
@@ -37,19 +45,30 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    if (this.isBrowser) {
+      localStorage.removeItem(this.tokenKey);
+    }
     this.userSubject.next(null);
   }
 
   getToken(): string | null {
+    if (!this.isBrowser) {
+      return null;
+    }
     return localStorage.getItem(this.tokenKey);
   }
 
   setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+    if (this.isBrowser) {
+      localStorage.setItem(this.tokenKey, token);
+    }
   }
 
   isAuthenticated(): boolean {
+    if (!this.isBrowser) {
+      return false;
+    }
+
     const token = this.getToken();
     if (!token) return false;
 
@@ -62,6 +81,10 @@ export class AuthService {
   }
 
   getCurrentUser(): AuthResponse | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
     const token = this.getToken();
     if (!token || !this.isAuthenticated()) return null;
 
@@ -69,8 +92,8 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return {
         token,
-        username: payload.unique_name || 'Admin', // asegura que siempre haya un username
-        email: payload.email || '',
+        username: payload.unique_name,
+        email: payload.email,
         expiresAt: new Date(payload.exp * 1000).toISOString()
       };
     } catch {

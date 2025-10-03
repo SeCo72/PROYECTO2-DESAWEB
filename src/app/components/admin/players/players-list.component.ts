@@ -53,7 +53,7 @@ import { Player, Team } from '../../../models/models';
                   <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap font-bold text-orange-500">{{ player.number }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ player.fullName }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ player.team?.name }}</td>
+                    <!--<td class="px-6 py-4 whitespace-nowrap">{{ player.team?.name }}</td>-->
                     <td class="px-6 py-4 whitespace-nowrap">{{ player.position }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ player.age }} años</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ player.height }}m</td>

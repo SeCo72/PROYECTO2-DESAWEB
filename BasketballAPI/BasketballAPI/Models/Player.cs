@@ -12,7 +12,7 @@ namespace BasketballAPI.Models
         public string? PhotoUrl { get; set; }
         
         public int TeamId { get; set; }
-        public Team Team { get; set; } = null!;
+        public Team? Team { get; set; }  
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

@@ -38,7 +38,6 @@ export interface Player {
   nationality: string;
   photoUrl?: string;
   teamId: number;
-  team?: Team;
   createdAt?: string;
 }
 

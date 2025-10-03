@@ -70,10 +70,20 @@ import { LoginDto } from '../../models/models';
     </div>
   `,
   styles: [`
-    :host {
-      display: block;
-    }
-  `]
+  :host {
+    display: block;
+  }
+
+  .login-card {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+`]
+
 })
 export class LoginComponent {
   credentials: LoginDto = { username: '', password: '' };
