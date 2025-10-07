@@ -7,7 +7,7 @@ import { Team, Player, Match } from '../models/models';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:5231/api'; // Cambia según tu configuración
+  private apiUrl = 'http://localhost:5231/api';
 
   constructor(private http: HttpClient) {}
 

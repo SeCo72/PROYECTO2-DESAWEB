@@ -54,7 +54,6 @@ export class ScoreboardComponent implements OnInit {
   onMatchSelect() {
     if (!this.selectedMatch) return;
 
-    // Si el partido ya tiene un juego asociado, cargarlo
     if (this.selectedMatch.gameId) {
       this.gameService.getGame(this.selectedMatch.gameId).subscribe({
         next: (game) => {
@@ -63,7 +62,7 @@ export class ScoreboardComponent implements OnInit {
         error: (err) => console.error('Error cargando juego', err)
       });
     } else {
-      // Crear nuevo juego
+
       this.createNewGame();
     }
   }

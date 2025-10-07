@@ -13,7 +13,7 @@ import { LoginDto } from '../../models/models';
     <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-500 to-red-600 p-4">
       <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
         <div class="text-center mb-8">
-          <h1 class="text-3xl font-bold text-gray-800">🏀 Basketball Admin</h1>
+          <h1 class="text-3xl font-bold text-gray-800">🏀 Inicio d Sesión</h1>
           <p class="text-gray-600 mt-2">Ingresa a tu cuenta</p>
         </div>
 
